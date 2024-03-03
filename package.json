@@ -1,0 +1,28 @@
+{
+  "name": "@aladas-org/p5-patterns",
+  "version": "0.0.1",
+  "description": "Patterns library for p5.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ALADAS-org/P5-Patterns.git"
+  },
+  "keywords": [
+    "pattern",
+    "p5",
+    "2D",
+    "grid",
+    "generative",
+    "procedural",
+    "tile"
+  ],
+  "author": "Daniel Rodet & Michel Kern",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ALADAS-org/P5-Patterns/issues"
+  },
+  "homepage": "https://github.com/ALADAS-org/P5-Patterns#readme"
+}
