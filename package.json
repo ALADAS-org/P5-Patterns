@@ -1,6 +1,6 @@
 {
   "name": "@aladas-org/p5-patterns",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Patterns library for p5.js",
   "main": "index.js",
   "scripts": {
