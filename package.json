@@ -1,7 +1,16 @@
 {
   "name": "@aladas-org/p5-patterns",
+<<<<<<< HEAD
   "version": "0.0.2",
   "description": "Patterns library for p5.js",
+=======
+  "version": "0.0.4",
+  "description": "Patterns library for p5.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+>>>>>>> temp
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ALADAS-org/P5-Patterns.git"
