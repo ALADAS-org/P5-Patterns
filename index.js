@@ -3,4 +3,8 @@
 // ======================================================================================
 "use strict";
 
-console.log(">>  " + index.js);
+import { Pattern } from './src/pattern.js';
+
+console.log(">>  P5-Pattern: index.js");
+
+export { Pattern }
