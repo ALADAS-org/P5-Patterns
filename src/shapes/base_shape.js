@@ -4,11 +4,11 @@
 "use strict";
 
 //-------------------------------------------------------------------------------------
-//--------------------------------    Pattern class    --------------------------------
+//-------------------------------    BaseShape class    -------------------------------
 //-------------------------------------------------------------------------------------
 const BaseShape = class {
 	constructor(p5_instance, args) {
-		console.log(">> " + this.constructor.name);
+		console.log(">> new " + this.constructor.name);
 	} // constructor
 }; // BaseShape class
 
