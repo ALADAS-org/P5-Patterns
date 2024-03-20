@@ -25,15 +25,12 @@ const Pattern = class {
 	constructor(p5_instance, attributes) {
 		trace(">> new " + this.constructor.name);
 		
+		this.p5          = p5_instance;
 		this.attributes  = (attributes == undefined) ? {} : attributes;
 		
 		this.id = this.getId();
 		this.setAttribute(ID, this.id);
-		
-		this.p5          = p5_instance;
-		this.options     = options;
-		
-		// let shape = new BaseShape();
+
 		this.json_data   = {};
 		this.cell_shapes = [];		
 	} // constructor
