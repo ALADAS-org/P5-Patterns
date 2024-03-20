@@ -69,6 +69,9 @@ const Pattern = class {
 		for (let i=0; i < keys.length; i++) {
 			let key = keys[i];
 		    trace("   key[" + i + "] : " + key);
+			trace("   SHAPES: " + JSON.stringify(SHAPES));
+			let pos = SHAPES.indexOf(key);
+			trace("   pos[" + key + "] : " + pos);
 			if (SHAPES.indexOf(key) != -1) {
 				switch (key) {
 					case RECTANGLE:

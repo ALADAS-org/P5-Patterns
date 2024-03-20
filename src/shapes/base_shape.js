@@ -7,7 +7,7 @@ import { trace } from '../util/trace.js';
 
 const RECTANGLE   = "Rectangle";
 const CIRCLE      = "Circle";
-const SHAPES      = [ [RECTANGLE], [CIRCLE] ];
+const SHAPES      = [ RECTANGLE, CIRCLE ];
 
 const NO_VALUE    = "None";
 
@@ -26,7 +26,7 @@ const SHAPE_ATTRIBUTES          = [
 	[TYPE] 
 ];
 const SHAPE_ATTRIBUTES_DEFAULTS = { 
-	[TYPE]: [RECTANGLE]
+	[TYPE]: RECTANGLE
 };
 
 //-------------------------------------------------------------------------------------
