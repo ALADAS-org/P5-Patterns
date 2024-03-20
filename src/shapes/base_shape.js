@@ -7,7 +7,7 @@ import { trace } from '../util/trace.js';
 
 const RECTANGLE = "Rectangle";
 const CIRCLE    = "Circle";
-const RECTANGLE = [ [RECTANGLE], [CIRCLE] ];
+const SHAPES    = [ [RECTANGLE], [CIRCLE] ];
 
 //-------------------------------------------------------------------------------------
 //-------------------------------    BaseShape class    -------------------------------
