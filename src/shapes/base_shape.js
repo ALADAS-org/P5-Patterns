@@ -36,9 +36,8 @@ const BaseShape = class {
 	constructor(p5_instance, attributes) {
 		trace(">> new " + this.constructor.name);
 		
-		this.setAttribute(this.getId());
-		
 		this.attributes = (attributes == undefined) ? {} : attributes;
+		this.setAttribute(this.getId());
 	} // constructor
 
 	getId() {
