@@ -37,7 +37,7 @@ const BaseShape = class {
 		trace(">> new " + this.constructor.name);
 		
 		this.id = this.getId();
-		setAttribute(ID, id);
+		this.setAttribute(ID, id);
 		
 		this.attributes = (attributes == undefined) ? {} : attributes;
 	} // constructor

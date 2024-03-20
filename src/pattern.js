@@ -26,7 +26,7 @@ const Pattern = class {
 		trace(">> new " + this.constructor.name);
 		
 		this.id = this.getId();
-		setAttribute(ID, this.id);
+		this.setAttribute(ID, this.id);
 		
 		this.p5          = p5_instance;
 		this.options     = options;
