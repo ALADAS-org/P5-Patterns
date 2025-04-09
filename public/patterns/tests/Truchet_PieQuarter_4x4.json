@@ -1,0 +1,20 @@
+{
+    "Name":            "PiePart Truchet",
+    "Description":     "PiePart Truchet pattern",
+    "Categories":      ["Truchet"],
+    "GridSize":        { "width": 4, "height": 4 },
+    "CellSize":        { "width": 20, "height": 20 },
+    "MaxCellValue":    7,
+    "BackgroundColor": "#000000",
+    "Shapes": {
+        "0": { "Shape": "Ellipse", "FillColor": "#e6ddba", "Arc": { "start": 0,   "end": 90 } },
+        "1": { "Shape": "Ellipse", "FillColor": "#bfb086", "Arc": { "start": 90,  "end": 180 } },                
+        "2": { "Shape": "Ellipse", "FillColor": "#857f46", "Arc": { "start": 180, "end": 270 } },
+        "3": { "Shape": "Ellipse", "FillColor": "#bda669", "Arc": { "start": 270, "end": 0 } },			   
+               
+        "4": { "Shape": "Ellipse", "FillColor": "#614b2f", "Arc": { "start": 0,   "end": 90 } }, 
+        "5": { "Shape": "Ellipse", "FillColor": "#D0D0D0", "Arc": { "start": 90,  "end": 180 } },                 
+        "6": { "Shape": "Ellipse", "FillColor": "#888888", "Arc": { "start": 180, "end": 270 } }, 
+        "7": { "Shape": "Ellipse", "FillColor": "#595959", "Arc": { "start": 270, "end": 0 }  } 
+    }               
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>p5.js example</title>  
+  
+  <script src="lib/p5.min.js"></script>  
+  
+  <link href="css/p5_patterns.css" rel="stylesheet" />
+  
+  <script type="text/javascript" src="src/p5_patterns.js"></script>
+  
+  <script>
+    console.log("----- TEST script (index.html) -----");
+	
+	//let url = "http://127.0.0.1:8080/patterns/tests/Truchet_PieQuarter_4x4.json";	
+	let url = "http://127.0.0.1:8080/patterns/Truchet_PieQuarter.json";
+	console.log("PATTERN_DATA url: " + url);
+    
+    // NB: seems to works better than 'fetch'
+	let xmlhttp = new XMLHttpRequest();	
+
+	xmlhttp.onreadystatechange = function() {
+	    // console.log("readyState: " + this.readyState + "    this.status: " + this.status);
+		if (this.readyState == 4 && this.status == 200) {
+			let json_data = JSON.parse(this.responseText);
+			P5P.SetAttribute(P5P.PATTERN_DATA, json_data);
+		}
+	};
+	xmlhttp.open("GET", url, true);
+	xmlhttp.send();
+  </script>   
+ 
+  <script>
+    console.log(">> Start P5_Patterns");
+	p5p = new p5(p5p_sketch);
+  </script>
+</head>
+
+<body>
+  <!-- <main> -->
+  <p class="Title">P5-Patterns demo</p>
+  <div class="P5P_Container">
+	<div id="p5p_canvas_id"></div>
+  </div>
+   <!-- </main> -->
+</body>
+
+</html>

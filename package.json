@@ -1,18 +1,18 @@
 {
   "name": "@aladas-org/p5-patterns",
-  "version": "0.0.17",
-  "description": "Patterns library for p5.js",
-  "main": "index.js",
+  "version": "0.0.18",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+	"start": "http-server --cors" 
   },
+  "description": "P5 extension for lattice patterns",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ALADAS-org/P5-Patterns.git"
   },
   "keywords": [
-    "pattern",
     "p5",
+    "pattern",
     "2D",
     "grid",
     "generative",
@@ -20,9 +20,13 @@
     "tile"
   ],
   "author": "Daniel Rodet & Michel Kern",
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/ALADAS-org/P5-Patterns/issues"
   },
-  "homepage": "https://github.com/ALADAS-org/P5-Patterns#readme"
+  "homepage": "https://github.com/ALADAS-org/P5-Patterns#readme",
+  "dependencies": {
+    "browser-sync": "^3.0.3",
+    "http-server": "^14.1.1"
+  }
 }
