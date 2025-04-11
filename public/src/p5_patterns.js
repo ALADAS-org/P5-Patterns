@@ -386,19 +386,7 @@ let P5P = {
             let center_y = this._origin.y + this._cell_size.height/2;
 			// console.log("   Cell center: " + center_x + ", " + center_y);
 			
-			console.log("   Cell json_data: " +  JSON.stringify(json_data));
-
-            let shape_arg = "Rectangle";          
-            if ( json_data[P5P.SHAPE_ARG] != undefined ) shape_arg = json_data[P5P.SHAPE_ARG];
-			// console.log("   Cell shape_arg: " +  shape_arg);
-
-            switch ( shape_arg ) {
-                case "Line":      this._shape = new P5P.LineShape(p5, this, origin, json_data);      break;
-                case "Rectangle": this._shape = new P5P.RectangleShape(p5, this, origin, json_data); break;
-                case "Ellipse":   this._shape = new P5P.EllipseShape(p5, this, origin, json_data);   break;
-                // case "Pie":       this._shape = new P5P.PieShape(p5, this, origin, json_data);       break;
-            }    
-
+			// console.log("   Cell json_data: " +  JSON.stringify(json_data));
             // console.log("new Cell() json_data: " + JSON.stringify(this._json_data));
             // this._pattern_data = grid.patternData;
         } // P5P.Grid constructor
@@ -439,8 +427,30 @@ let P5P = {
                 this._p5.fill( this.hexToRgb(bg_color) );
                 this._p5.rect( this._origin.x, this._origin.y, this._cell_size.width, this._cell_size.height );
             }
-            this._shape.draw();
+            // this._shape.draw();
+			this.drawShapes();
         } // P5P.Cell.draw()
+		
+		drawShapes() {
+			let shape_count = this._json_data.length;
+			console.log(">> Cell.drawPattern() shape_count: " + shape_count);			
+			
+			for ( let i=0; i < shape_count; i++ ) {
+				let shape_data = this._json_data[i];
+
+				let shape_arg = "Rectangle";          
+				if ( shape_data[P5P.SHAPE_ARG] != undefined ) shape_arg = shape_data[P5P.SHAPE_ARG];
+				// console.log("   Cell shape_arg: " +  shape_arg);
+
+				switch ( shape_arg ) {
+					case "Line":      this._shape = new P5P.LineShape(this._p5, this, this._origin, shape_data);      break;
+					case "Rectangle": this._shape = new P5P.RectangleShape(this._p5, this, this._origin, shape_data); break;
+					case "Ellipse":   this._shape = new P5P.EllipseShape(this._p5, this, this._origin, shape_data);   break;
+					// case "Pie":       this._shape = new P5P.PieShape(p5, this, origin, json_data);       break;
+				}    
+				this._shape.draw();
+            }
+		} // P5P.Cell.drawShapes()
     }, // P5P.Cell class
 
     ComboShape: class extends SuperKLS.Shape {

@@ -7,10 +7,10 @@
     "MaxCellValue":    1,
     "BackgroundColor": "#000000",
     "Shapes": {
-        "0": { "Shape": "Line", "Start": "NW", "End": "SE", 
-               "Color": "#ffffff", "FillColor": "#000000", "Thickness": 4 },
+        "0": [ { "Shape": "Line", "Start": "NW", "End": "SE", 
+                 "Color": "#ffffff", "FillColor": "#000000", "Thickness": 4 } ],
 
-        "1": { "Shape": "Line", "Start": "SW", "End": "NE", 
-               "Color": "#ffffff", "FillColor": "#000000", "Thickness": 4 }			  
+        "1": [ { "Shape": "Line", "Start": "SW", "End": "NE", 
+                 "Color": "#ffffff", "FillColor": "#000000", "Thickness": 4 } ]			  
     }
 }

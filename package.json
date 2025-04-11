@@ -1,11 +1,10 @@
 {
   "name": "@aladas-org/p5-patterns",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "scripts": {
 	"start": "http-server --cors" 
   },
   "description": "P5 extension for lattice patterns",
-  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ALADAS-org/P5-Patterns.git"
