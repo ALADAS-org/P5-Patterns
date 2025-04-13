@@ -1,0 +1,14 @@
+{
+	"name": "Sepia", 
+	"@type": "COLOR_PALETTE", 
+	"@constants": [
+		{ "name": "Double Spanish White", "value": "#e6ddba" },
+		{ "name": "Indian Khaki",         "value": "#bfb086" },
+		{ "name": "Shadow",               "value": "#857f46" },
+		{ "name": "Gimblet",              "value": "#bda669" },
+		{ "name": "Shingle Fawn",         "value": "#614b2f" },
+		{ "name": "Alto",                 "value": "#D0D0D0" },
+		{ "name": "Gray",                 "value": "#888888" },
+		{ "name": "Scorpion",             "value": "#595959" }      
+	]
+}

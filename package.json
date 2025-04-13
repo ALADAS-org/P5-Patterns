@@ -1,8 +1,8 @@
 {
   "name": "@aladas-org/p5-patterns",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "scripts": {
-	"start": "http-server --cors" 
+    "start": "node express_server.js"
   },
   "description": "P5 extension for lattice patterns",
   "repository": {
@@ -25,7 +25,6 @@
   },
   "homepage": "https://github.com/ALADAS-org/P5-Patterns#readme",
   "dependencies": {
-    "browser-sync": "^3.0.3",
-    "http-server": "^14.1.1"
+    "express": "^5.1.0"
   }
 }

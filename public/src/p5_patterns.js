@@ -33,15 +33,20 @@ let SuperKLS = {
             this._p5   = p5;  
             this._cell = cell; 
             this._grid = cell.grid;
+			this._renderer = this._grid.renderer;
             this._origin = origin;  
             this._json_data = json_data;
             
             this._position       = this.getPoint(this.getArgValue(P5P.POSITION_ARG, P5P.CARDINAL_POINT_NW));
             this._size           = this.getArgValue(P5P.SIZE_ARG,       this._cell.size);
+			
             this._color          = this.getArgValue(P5P.COLOR_ARG,      "#ff0000");
+			this._drawThickness  = 1;
+			
+			this._fill_color     = this.getArgValue(P5P.FILL_COLOR_ARG, "#ffff00");
+			
             this._center_point   = { x: this._origin.x + this._size.width/2, 
-			                         y: this._origin.y + this._size.height/2 };
-            this._fill_color     = this.getArgValue(P5P.FILL_COLOR_ARG, "#ffff00");
+			                         y: this._origin.y + this._size.height/2 };            
         } // SuperKLS.Shape constructor
 
         draw() {            
@@ -54,16 +59,37 @@ let SuperKLS = {
         get origin() {
             return this._origin;
         } // SuperKLS.Shape getter for 'origin'
+		
+		get color() {
+            return this._color;
+        } // SuperKLS.Shape getter for 'color'
+		
+		get fillColor() {
+            return this._fill_color;
+        } // SuperKLS.Shape getter for 'fillColor'
 
         get grid() {
             return this._grid;
         } // SuperKLS.Shape getter for 'grid'
+		
+		get renderer() {
+            return this._renderer;
+        } // SuperKLS.Shape getter for 'renderer'
 
         getArgValue(name, default_value) {
             let value = default_value;
             if ( this._json_data[name] != undefined )  value = this._json_data[name];
             return value;
-        } // SuperKLS.Shape.getArgValue()        
+        } // SuperKLS.Shape.getArgValue()  
+
+		setStroke() {
+			if (this._drawThickness == 0 || this._color == "none")
+				this._p5.noStroke();
+			else {
+				this._p5.strokeWeight(this._drawThickness);
+				this._p5.stroke(this._color);
+			}							
+		} // setStroke		
 
         getPoint( cardinal_point ) {
             let point = { x: this._origin, y: this._origin };
@@ -133,7 +159,14 @@ let P5P = {
 	
     UNKNOWN_ATTRIBUTE:      "Unknown attribute",
     DEFAULT_CANVAS_WIDTH  : 600,
-    DEFAULT_CANVAS_HEIGHT : 400,  
+    DEFAULT_CANVAS_HEIGHT : 400, 
+
+    CELL_KLASS:         "Cell",         	
+	
+	LINE_SHAPE:         "Line",
+	ELLIPSE_SHAPE:      "Ellipse",
+	RECTANGLE_SHAPE:    "Rectangle",
+	POLYGRAM_SHAPE:     "Polygram",
     
     CARDINAL_POINT_NW : "NW",
     CARDINAL_POINT_N :  "N",
@@ -173,6 +206,9 @@ let P5P = {
 
     START_ARG :         "Start",
     END_ARG :           "End",
+	
+	IS_STAR_ARG:        "IsStar",
+	VERTEX_COUNT_ARG:   "VertexCount",
 
     FILL_STYLE_ARG:     "FillStyle",
     PIE_PIECE_ARG:      "PiePiece",
@@ -198,7 +234,7 @@ let P5P = {
             return this._grid;
         } // P5P.Renderer getter for 'grid'
 		
-		draw_arc(shape, start_angle, end_angle) {
+		drawArc(shape, start_angle, end_angle) {
 			// console.log(" >> draw_arc " + start_angle + " " + end_angle);
 			let arc_center_point = this._center;
 			
@@ -219,7 +255,59 @@ let P5P = {
 			// this._p5.fill(this._fill_color);
 			this._p5.arc(pivot.x, pivot.y, shape.cell.size.width*2, shape.cell.size.height*2, 
 						 start_angle, end_angle, this._p5.PIE);
-		} // P5P.Renderer.draw_arc()	
+		} // P5P.Renderer.drawArc()	
+		
+		// Draws a Polygram (regular polygon or a star) (is_star = true)
+	    // https://processing.org/examples/star.html
+		drawPolygram(shape, center, vertex_count_arg, size, is_star) {
+			// console.log(" >> Renderer/drawPolygram is_star: " + is_star);
+			this._p5.fill(shape.fillColor);
+			
+			this._p5.angleMode(this._p5.RADIANS);
+			let vertex_count = vertex_count_arg;
+
+		    if (is_star == false) {
+			   vertex_count = vertex_count_arg / 2;
+		    }			
+
+			const HALF_PI = Math.PI / 2.0;
+			const TWO_PI  = Math.PI * 2.0;
+			
+			let angle       = TWO_PI / vertex_count;
+			let half_angle  = angle / 2.0;
+			
+			let shift_angle = (vertex_count/2.0) * Math.PI + Math.PI;
+			
+			let radius_1 = size.width  / 2.0;
+			let radius_2 = size.height / 2.0; //size.height / 2.0;
+			
+			if (is_star == true) {
+				// radius_1 = size.width/2.2;
+				radius_2 = radius_2 / 2.2;
+			}
+			else if (is_star == false) {
+				//if (vertex_count % 2 == 1) shift_angle = HALF_PI/vertex_count; // + Math.PI;
+				if (vertex_count_arg % 2 == 1) shift_angle = HALF_PI/vertex_count_arg + Math.PI;
+			}
+			//shift_angle = 0;			
+			
+			let x = center.x; // - shape.cell.size.width  / 2.0;
+			let y = center.y; // - shape.cell.size.height / 2.0;
+			
+			this._p5.beginShape();
+				for (let a = shift_angle; a < TWO_PI + shift_angle; a += angle) {
+					let sx = x + Math.cos(a) * radius_2;
+					let sy = y + Math.sin(a) * radius_2;
+					this._p5.vertex(sx, sy);
+					
+					sx = x + Math.cos(a + half_angle) * radius_1;
+					sy = y + Math.sin(a + half_angle) * radius_1;		
+					this._p5.vertex(sx, sy);
+				}
+			this._p5.endShape(this._p5.CLOSE);
+			
+			this._p5.angleMode(this._p5.DEGREES);
+		} // P5P.Renderer.drawPolygram()
     }, // P5P.Renderer class
 
     Grid: class {
@@ -299,7 +387,7 @@ let P5P = {
 						// console.log("   Grid.draw() pattern_data: " + JSON.stringify(this._pattern_data));
 
                         let cell_json_data = this._pattern_data[P5P.SHAPES_ARG][cell_value.toString()]; 
-						console.log("   Grid.draw() cell_json_data: " + JSON.stringify(cell_json_data));
+						// console.log("   Grid.draw() cell_json_data: " + JSON.stringify(cell_json_data));
 
                         let cell = new P5P.Cell(this._p5, this, cell_origin, cell_json_data);
                         // cells.push(cell);
@@ -373,23 +461,30 @@ let P5P = {
 
     Cell: class {
         constructor(p5, grid, origin, json_data ) {
-			console.log(">> New Cell");
+			console.log(">> New Cell")
+			this._klass     = P5P.CELL_KLASS;
             this._p5        = p5;
             this._grid      = grid;            
             this._origin    = origin;
             this._cell_size = grid.cellSize;
 			this._json_data = json_data;
+			// console.log("   Cell constructor json_data: " + JSON.stringify(this._json_data));
 			
 			// console.log("   Cell Size: " + JSON.stringify(this._cell_size));
 
             let center_x = this._origin.x + this._cell_size.width/2;
             let center_y = this._origin.y + this._cell_size.height/2;
+			this._center = { x: center_x, y: center_y };
 			// console.log("   Cell center: " + center_x + ", " + center_y);
 			
 			// console.log("   Cell json_data: " +  JSON.stringify(json_data));
             // console.log("new Cell() json_data: " + JSON.stringify(this._json_data));
             // this._pattern_data = grid.patternData;
         } // P5P.Grid constructor
+		
+		get klass() {
+            return this._klass;
+        } // P5P.Cell getter for 'klass'
 
         get origin() {
             return this._origin;
@@ -420,14 +515,17 @@ let P5P = {
         } // P5P.Cell.hexToRgb()
 
         draw() {
-            // console.log("Cell.draw() _origin: " + JSON.stringify(this._origin));
-            let bg_color = this._json_data[P5P.BG_COLOR_ARG];
+            console.log("   Cell.draw()");
+			let bg_color = this._grid.bgColor;
+			// console.log("   Cell bg_color BEFORE: " + bg_color);
+			// console.log("   Cell json_data: " + JSON.stringify(this._json_data));
+			if (this._json_data[P5P.BG_COLOR_ARG] != undefined) bg_color = this._json_data[P5P.BG_COLOR_ARG];
+			// console.log("   Cell bg_color AFTER: " + bg_color);
 
             if ( this._visible) {
                 this._p5.fill( this.hexToRgb(bg_color) );
                 this._p5.rect( this._origin.x, this._origin.y, this._cell_size.width, this._cell_size.height );
             }
-            // this._shape.draw();
 			this.drawShapes();
         } // P5P.Cell.draw()
 		
@@ -443,10 +541,17 @@ let P5P = {
 				// console.log("   Cell shape_arg: " +  shape_arg);
 
 				switch ( shape_arg ) {
-					case "Line":      this._shape = new P5P.LineShape(this._p5, this, this._origin, shape_data);      break;
-					case "Rectangle": this._shape = new P5P.RectangleShape(this._p5, this, this._origin, shape_data); break;
-					case "Ellipse":   this._shape = new P5P.EllipseShape(this._p5, this, this._origin, shape_data);   break;
-					// case "Pie":       this._shape = new P5P.PieShape(p5, this, origin, json_data);       break;
+					case P5P.LINE_SHAPE:      this._shape = new P5P.LineShape(this._p5,      this, this._origin, shape_data);
+                             				  break;
+											  
+					case P5P.RECTANGLE_SHAPE: this._shape = new P5P.RectangleShape(this._p5, this, this._origin, shape_data);
+                            				  break;
+											  
+					case P5P.ELLIPSE_SHAPE:   this._shape = new P5P.EllipseShape(this._p5,   this, this._origin, shape_data);
+ 					                          break;
+											  
+                    case P5P.POLYGRAM_SHAPE:  this._shape = new P5P.PolygramShape(this._p5,  this, this._origin, shape_data);
+     					                      break;
 				}    
 				this._shape.draw();
             }
@@ -519,38 +624,8 @@ let P5P = {
             // this._p5.fill("white");
             this._p5.fill(this._fill_color);
 			
-			const draw_arc = (start_angle, end_angle) => {
-				// console.log(" >> draw_arc " + start_angle + " " + end_angle);
-				let arc_center_point = this._center;
-				
-				if (start_angle == 0 && end_angle == 90) {
-					arc_center_point = this.getPoint(P5P.CARDINAL_POINT_NW);
-				}
-                else if (start_angle == 90 && end_angle == 180) {
-					arc_center_point = this.getPoint(P5P.CARDINAL_POINT_NE);
-				}
-				else if (start_angle == 180 && end_angle == 270) {
-					arc_center_point = this.getPoint(P5P.CARDINAL_POINT_SE);
-				}
-				else if (start_angle == 270 && end_angle == 0) {
-					arc_center_point = this.getPoint(P5P.CARDINAL_POINT_SW);
-				}
-			
-				/* arc(x, y, w, h, start, stop, [mode], [detail])
-					 x/y  Number: 	x/y coordinate of the arc's ellipse
-					 w/h  Number: 	width/height of the arc's ellipse by default
-					 start Number: 	angle to start the arc, specified in radians
-					 stop Number: 	angle to stop the arc, specified in radians
-					 mode Constant: (optional) how to draw the arc (either CHORD, PIE or OPEN)
-				*/       
-				let pivot = this._p5.createVector(arc_center_point.x, arc_center_point.y);
-				// this._p5.fill(this._fill_color);
-				this._p5.arc(pivot.x, pivot.y, this._size.width*2, this._size.height*2, 
-				             start_angle, end_angle, this._p5.PIE);
-			}; // draw_arc()	
-			
 			if (this._arc != undefined) {
-				this._grid.renderer.draw_arc(this, this._arc.start, this._arc.end);
+				this._grid.renderer.drawArc(this, this._arc.start, this._arc.end);
 				// draw_arc(this._arc.start, this._arc.end);
 			}
 			else {
@@ -559,74 +634,35 @@ let P5P = {
         } // P5P.EllipseShape.draw()
     }, // P5P.EllipseShape class
 
-    PieShape: class extends SuperKLS.Shape {
-        constructor(p5, cell, origin, json_data) {            
+    PolygramShape : class extends SuperKLS.Shape {
+        constructor(p5, cell, origin, json_data) {
             super(p5, cell, origin, json_data);
-            // console.log(">> new PieShape");
-
-            this._center = this.getArgValue(P5P.CENTER_ARG, P5P.CARDINAL_POINT_NW);		
-        } // P5P.PieShape constructor
-
-        draw() { 
-            let arc_center_point = this.getPoint(this._center);
-            //console.log("   PieShape.draw center: " + this._center + " arc_center_point: " + JSON.stringify(arc_center_point));
-            //console.log("   size: " + this._size);  
-
-            // this._p5.angleMode(this._p5.DEGREES);
-                  
-            //this._p5.stroke("white");
-            //this._p5.strokeWeight(1);
-            //this._p5.noFill();
-            //this._p5.rect(this._origin.x, this._origin.y, this._size, this._size);
-
-            //this._p5.noStroke();
-            //this._p5.fill("red");            
-            //let dot_size = 4;
-            //this._p5.rect(this._center_point.x - dot_size/2, this._center_point.y - dot_size/2, dot_size, dot_size); 
-
-            //this._p5.noStroke();
-            //this._p5.fill("green");            
-            //dot_size = 8;
-            //this._p5.rect(arc_center_point.x - dot_size/2, arc_center_point.y - dot_size/2, dot_size, dot_size); 
-
-            /*
-            arc(x, y, w, h, start, stop, [mode], [detail])
-            x/y  Number: 	x/y coordinate of the arc's ellipse
-            w/h  Number: 	width/height of the arc's ellipse by default
-            start Number: 	angle to start the arc, specified in radians
-            stop Number: 	angle to stop the arc, specified in radians
-            mode Constant: 	optional parameter to determine the way of drawing the arc. either CHORD, PIE or OPEN (Optional)
-            */            
-            let start_angle = 0;
-            let end_angle   = 90;
-            switch (this._center) {
-                case P5P.CARDINAL_POINT_NW:
-                    start_angle = 0;
-                    end_angle   = 90;
-                    break;
-
-                case P5P.CARDINAL_POINT_NE:
-                    start_angle = 90;
-                    end_angle   = 180;
-                    break;
-
-                case P5P.CARDINAL_POINT_SE:
-                    start_angle = 180;
-                    end_angle   = 270;
-                    break;
-
-                case P5P.CARDINAL_POINT_SW:
-                    start_angle = 270;
-                    end_angle   = 0;
-                    break;
+			console.log(">> new PolygramShape");
+			
+			this._is_star      = this.getArgValue(P5P.IS_STAR_ARG, false);
+			this._vertex_count = this.getArgValue(P5P.VERTEX_COUNT_ARG, 5);
+			// onsole.log("  this._cell:" + this._cell);
+			
+			// console.log("  this._cell.center:" + JSON.stringify(this._cell.center));
+			this._center = this._cell.center;
+        } // constructor()
+        
+        draw() {
+            // console.log(">> PolygramShape.draw");
+            // if (! this.visible) return;
+            
+            //let draw_origin = getP5().createVector(this.origin.x, this.origin.y);
+            this.setStroke();
+            this._p5.fill(this._fill_color);            
+          
+            let vertex_count = 5;
+            if (this._vertex_count >=3 && this._vertex_count <=16) {
+                vertex_count = this._vertex_count;
             }
-
-            let pivot = this._p5.createVector(arc_center_point.x, arc_center_point.y);
-
-            this._p5.fill(this._fill_color);
-            this._p5.arc(pivot.x, pivot.y, this._size.width*2, this._size.height*2, start_angle, end_angle, this._p5.PIE);
-        } // P5P.PieShape.draw()
-    }, // P5P.PieShape class
+            
+            this._renderer.drawPolygram(this, this._center, vertex_count, this._cell.size, this._is_star);
+        } // P5P.Polygram.draw()
+    } // PolygramShape class
 }; // P5P namespace
 
 //console.log(">> After P5P definition");
