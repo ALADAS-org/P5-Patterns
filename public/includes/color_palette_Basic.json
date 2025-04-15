@@ -1,0 +1,34 @@
+{
+	"name": "Basic", 
+	"references": { "HTML Color names": "https://htmlcolorcodes.com/color-names",
+	                "Name that color":  "https://chir.ag/projects/name-that-color"
+                  },
+	"@type": "COLOR_PALETTE", 
+	"@constants": [
+		{ "name": "White",              "value": "#ffffff" },
+		{ "name": "Black",              "value": "#000000" },		
+		
+		{ "name": "Blue",               "value": "#0000ff" },
+		{ "name": "Cyan",               "value": "#00ffff" },
+		{ "name": "Aquamarine",         "value": "#7fffd4" },
+		{ "name": "SkyBlue",            "value": "#87ceeb" },
+		{ "name": "RoyalBlue",          "value": "#4169e1" },
+		
+		{ "name": "Red",                "value": "#ff0000" },
+		{ "name": "BrightOrange",       "value": "#ff991c" },
+		
+		{ "name": "Green",              "value": "#00ff00" },
+		{ "name": "PaleGreen",          "value": "#98fb98" },		
+		
+		{ "name": "Magenta",            "value": "#ff00ff" },
+		{ "name": "HotPink",            "value": "#ff69b4" },
+		
+		{ "name": "Yellow",             "value": "#ffff00" },
+		{ "name": "BlanchedAlmond",     "value": "#ffebcd" },
+		{ "name": "Brown",              "value": "#964B00" },
+		
+		{ "name": "LightGrey",          "value": "#d3d3d3" },
+		{ "name": "Silver",             "value": "#c0c0c0" },
+		{ "name": "DarkGrey",           "value": "#a9a9a9" }	
+	]
+}

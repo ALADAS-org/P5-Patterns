@@ -12,11 +12,11 @@ let router = express.Router();
 
 const http_server = http.Server(app);
 
-console.log(">> ==== server.js (express) ====");
-console.log("__dirname: " + __dirname);
+console.log(">> ==== p5-patterns 'http server' ====");
+// console.log("__dirname: " + __dirname);
 
 let www_path = __dirname + "\\public";
-console.log("www_path: " + www_path);
+console.log("root path: " + www_path);
 
 app.use(express.static(www_path));
 
@@ -33,3 +33,4 @@ app.use('/scripts', express.static(__dirname + '/node_modules/json_preprocessor/
 
 app.listen(PORT);
 console.log(">> listening on port: " + PORT);
+console.log("   ... Now use 'demo' shortcut to see the p5-patterns demo");

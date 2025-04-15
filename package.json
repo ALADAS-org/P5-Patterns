@@ -1,6 +1,6 @@
 {
   "name": "@aladas-org/p5-patterns",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "scripts": {
     "start": "node express_server.js"
   },

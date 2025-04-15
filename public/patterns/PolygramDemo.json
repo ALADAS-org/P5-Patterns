@@ -2,25 +2,32 @@
     "Name":            "Polygram Demo",
     "Description":     "Demo of Polygram (i.e. Polygons and 'N-Stars')",
     "Categories":      ["Demo"],
-    "GridSize":        { "width": 27, "height": 15 },
+    "GridSize":        { "width": 26, "height": 13 },
     "CellSize":        { "width": 20, "height": 20 },
-    "MaxCellValue":    6,
-    "BackgroundColor": "#000000",
+    "MaxCellValue":    8,
+	"BackgroundColor": "#000000",
+	
+	"@include": { "src": "includes/color_palette_Basic.json", "#type": "COLOR_PALETTE" }, 
+	
     "Shapes": {	
-	    "0": [ { "Shape": "Polygram", "FillColor": "#ff0000", "Color": "#ffffff",
+		"0": [ { "Shape": "Polygram", "FillColor": "$Yellow", "Color": "#ff3333",
+		         "VertexCount": 3,    "IsStar": false } ],
+	    "1": [ { "Shape": "Polygram", "FillColor": "$Red", "Color": "$White",
 		         "VertexCount": 4,    "IsStar": false } ],
-	    "1": [ { "Shape": "Polygram", "FillColor": "#22aa22", "Color": "#ffffff",
+	    "2": [ { "Shape": "Polygram", "FillColor": "#22aa22", "Color": "$White",
 		         "VertexCount": 5,    "IsStar": false } ],
-		"2": [ { "Shape": "Polygram", "FillColor": "#0000ff", "Color": "#ffffff",
+		"3": [ { "Shape": "Polygram", "FillColor": "$Blue", "Color": "$White",
 		         "VertexCount": 6,    "IsStar": false } ],
 				 
-		"3": [ { "Shape": "Polygram", "FillColor": "#ff8000", "Color": "#ffffff",
+		"4": [ { "Shape": "Polygram", "FillColor": "$White", "Color": "$Red",
+		         "VertexCount": 3,    "IsStar": true } ],				 
+		"5": [ { "Shape": "Polygram", "FillColor": "$BrightOrange", "Color": "$White",
 		         "VertexCount": 4,    "IsStar": true } ],		
-        "4": [ { "Shape": "Polygram", "FillColor": "#aa22aa", "Color": "#ffffff", 
+        "6": [ { "Shape": "Polygram", "FillColor": "#aa22aa", "Color": "$White", 
 		         "VertexCount": 5,    "IsStar": true } ],
-		"5": [ { "Shape": "Polygram", "FillColor": "#ff00ff", "Color": "#ffffff",
+		"7": [ { "Shape": "Polygram", "FillColor": "$Magenta", "Color": "$White",
 		         "VertexCount": 6,    "IsStar": true } ],
-		"6": [ { "Shape": "Polygram", "FillColor": "#55aaaa", "Color": "#ffffff",
+		"8": [ { "Shape": "Polygram", "FillColor": "#55aaaa", "Color": "$White",
 		         "VertexCount": 7,    "IsStar": true } ]
     }               
 }

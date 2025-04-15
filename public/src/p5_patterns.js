@@ -30,9 +30,10 @@ let SuperKLS = {
     Shape: class { 
         constructor(p5, cell, origin, json_data) {
             // console.log(">> new Shape");
-            this._p5   = p5;  
-            this._cell = cell; 
-            this._grid = cell.grid;
+			this._klass = "SuperKLS.Shape";
+            this._p5    = p5;  
+            this._cell  = cell; 
+            this._grid  = cell.grid;
 			this._renderer = this._grid.renderer;
             this._origin = origin;  
             this._json_data = json_data;
@@ -51,10 +52,30 @@ let SuperKLS = {
 
         draw() {            
         } // SuperKLS.Shape.draw()
+		
+		get p5() {
+            return this._p5;
+        } // SuperKLS.Shape getter for 'p5'
+		
+		get klass() {
+            return this._klass;
+        } // SuperKLS.Shape getter for 'klass'
+		
+		get grid() {
+            return this._grid;
+        } // SuperKLS.Shape getter for 'grid'
+		
+		get renderer() {
+            return this._renderer;
+        } // SuperKLS.Shape getter for 'renderer'
 
         get cell() {
             return this._cell;
         } // SuperKLS.Shape getter for 'cell'
+		
+		get json_data() {
+            return this._json_data;
+        } // SuperKLS.Shape getter for 'json_data'
 
         get origin() {
             return this._origin;
@@ -67,14 +88,6 @@ let SuperKLS = {
 		get fillColor() {
             return this._fill_color;
         } // SuperKLS.Shape getter for 'fillColor'
-
-        get grid() {
-            return this._grid;
-        } // SuperKLS.Shape getter for 'grid'
-		
-		get renderer() {
-            return this._renderer;
-        } // SuperKLS.Shape getter for 'renderer'
 
         getArgValue(name, default_value) {
             let value = default_value;
@@ -161,6 +174,8 @@ let P5P = {
     DEFAULT_CANVAS_WIDTH  : 600,
     DEFAULT_CANVAS_HEIGHT : 400, 
 
+    RENDERER_KLASS:     "Renderer", 
+    GRID_KLASS:         "Grid", 
     CELL_KLASS:         "Cell",         	
 	
 	LINE_SHAPE:         "Line",
@@ -221,6 +236,10 @@ let P5P = {
 			this._canvas = canvas;
             this._grid = new P5P.Grid(p5, this, P5P.GetAttribute(P5P.PATTERN_DATA));
         } // P5P.Renderer constructor
+		
+		get klass() {
+            return this._klass;
+        } // P5P.Renderer getter for 'klass'
 
         get p5() {
             return this._p5;
@@ -283,7 +302,12 @@ let P5P = {
 			
 			if (is_star == true) {
 				// radius_1 = size.width/2.2;
-				radius_2 = radius_2 / 2.2;
+			    radius_2 = radius_2 / 2;
+				if (vertex_count_arg == 3 || vertex_count_arg == 4) {
+					let decrement = Math.pow(2, vertex_count) / 2;
+					radius_2 = size.width / (14 - decrement );
+				}
+				if (vertex_count_arg == 5) shift_angle += Math.PI; 
 			}
 			else if (is_star == false) {
 				//if (vertex_count % 2 == 1) shift_angle = HALF_PI/vertex_count; // + Math.PI;
@@ -314,11 +338,11 @@ let P5P = {
         static DEFAULT_SIZE      = { "width": 18, "height": 18 };
         static DEFAULT_CELL_SIZE = { "width": 20, "height": 20 };
 
-        constructor(p5, renderer, pattern_data) {
+        constructor(p5, renderer, pattern_data) {		
             this._p5           = p5;
 			this._renderer     = renderer;
             this._dirty        = true;
-            this._pattern_data = pattern_data;
+			this._pattern_data = pattern_data;
             
             // console.log( "new Grid 1 DEFAULT_GRID_SIZE: " + JSON.stringify(P5P.Grid.DEFAULT_SIZE)); 
             let width_arg  = P5P.Grid.DEFAULT_SIZE[P5P.WIDTH_ARG];   
@@ -353,7 +377,19 @@ let P5P = {
             this._visible = true;   
             this._origin  = this.computeOrigin();         
         } // P5P.Grid.constructor()
+		
+		get klass() {
+            return this._klass;
+        } // P5P.Grid getter for 'klass'
 
+        get p5() {
+            return this._p5;
+        } // P5P.Grid getter for 'p5'		
+		
+        get renderer() {
+            return this._renderer;
+        } // P5P.Grid getter for 'renderer'
+		
         draw() {
             // this.p5.background("red");
             if ( this._dirty ) this._dirty = false;
@@ -412,14 +448,6 @@ let P5P = {
             this._component.setAttribute(name, value);
         } // P5P.Grid.setAttribute()
 
-        get p5() {
-            return this._p5;
-        } // P5P.Grid getter for 'p5'		
-		
-        get renderer() {
-            return this._renderer;
-        } // P5P.Grid getter for 'renderer'
-
         get dirty() {
             return this._dirty;
         } // P5P.Grid getter for 'dirty'
@@ -453,15 +481,11 @@ let P5P = {
             let oy = this._p5.height / 2.0 - (this._height * this._cell_size.height) / 2.0;
             return { x: ox, y : oy };
         } // P5P.Grid.computeOrigin()
-
-        getPatternData() {
-            return this._pattern_data;
-        } // P5P.Grid.getPatternData()
     }, // P5P.Grid class
 
     Cell: class {
         constructor(p5, grid, origin, json_data ) {
-			console.log(">> New Cell")
+			// console.log(">> New Cell")
 			this._klass     = P5P.CELL_KLASS;
             this._p5        = p5;
             this._grid      = grid;            
@@ -515,7 +539,7 @@ let P5P = {
         } // P5P.Cell.hexToRgb()
 
         draw() {
-            console.log("   Cell.draw()");
+            // console.log("   Cell.draw()");
 			let bg_color = this._grid.bgColor;
 			// console.log("   Cell bg_color BEFORE: " + bg_color);
 			// console.log("   Cell json_data: " + JSON.stringify(this._json_data));
@@ -531,7 +555,7 @@ let P5P = {
 		
 		drawShapes() {
 			let shape_count = this._json_data.length;
-			console.log(">> Cell.drawPattern() shape_count: " + shape_count);			
+			// console.log(">> Cell.drawPattern() shape_count: " + shape_count);			
 			
 			for ( let i=0; i < shape_count; i++ ) {
 				let shape_data = this._json_data[i];
@@ -573,7 +597,9 @@ let P5P = {
     LineShape: class extends SuperKLS.Shape {
         constructor(p5, cell, origin, json_data) {            
             super(p5, cell, origin, json_data);
-            console.log(">> new LineShape"); 
+            // console.log(">> new LineShape"); 
+			this._klass = P5P.LINE_SHAPE;
+			
             this._start = this.getArgValue(P5P.START_ARG, P5P.CARDINAL_POINT_N);
             this._end   = this.getArgValue(P5P.END_ARG,   P5P.CARDINAL_POINT_S);
             this._thickness = this.getArgValue(P5P.THICKNESS_ARG, 1);
@@ -596,6 +622,7 @@ let P5P = {
     RectangleShape: class extends SuperKLS.Shape {
         constructor(p5, cell, origin, json_data) {            
             super(p5, cell, origin, json_data);
+			this._klass = P5P.RECTANGLE_SHAPE;
         } // P5P.RectangleShape constructor
 
         draw() {   
@@ -614,6 +641,8 @@ let P5P = {
     EllipseShape: class extends SuperKLS.Shape {
         constructor(p5, cell, origin, json_data) {            
             super(p5, cell, origin, json_data);
+			this._klass = P5P.ELLIPSE_SHAPE;
+			
 			this._arc    = this.getArgValue(P5P.ARC_ARG);
 			this._center = this.getArgValue(P5P.CENTER_ARG, P5P.CARDINAL_POINT_NW);	
             // console.log("   this._arc: " + JSON.stringify(this._arc));			
@@ -637,7 +666,8 @@ let P5P = {
     PolygramShape : class extends SuperKLS.Shape {
         constructor(p5, cell, origin, json_data) {
             super(p5, cell, origin, json_data);
-			console.log(">> new PolygramShape");
+			// console.log(">> new PolygramShape");
+			this._klass = P5P.POLYGRAM_SHAPE;
 			
 			this._is_star      = this.getArgValue(P5P.IS_STAR_ARG, false);
 			this._vertex_count = this.getArgValue(P5P.VERTEX_COUNT_ARG, 5);

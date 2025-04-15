@@ -1,28 +1,23 @@
 {
-    "Name":            "Pie Quarter Truchet",
-    "Description":     "Pie Quarter Truchet pattern - Color names retrieved with the help of 'Name my color' https://chir.ag/projects/name-that-color/#D0D0D0",
+    "Name":            "PieQuarter Truchet",
+    "Description":     "PieQuarter Truchet pattern: Color names retrieved with the help of 'Name that color' (https://chir.ag/projects/name-that-color)",
     "Categories":      ["Truchet"],
     "GridSize":        { "width": 27, "height": 15 },
     "CellSize":        { "width": 20, "height": 20 },
     "MaxCellValue":    7,
     "BackgroundColor": "#000000",
+	
+	"@include": { "src": "includes/color_palette_Sepia.json", "#type": "COLOR_PALETTE" },
+	
     "Shapes": {	
-	    "0": [ { "Shape": "Ellipse", "FillColor": "#e6ddba", "ColorName": "Double Spanish White", 
-		         "Arc": { "start": 0,   "end": 90 } } ],
-        "1": [ { "Shape": "Ellipse", "FillColor": "#bfb086", "ColorName": "Indian Khaki",
- 		         "Arc": { "start": 90,  "end": 180 } } ],                
-        "2": [ { "Shape": "Ellipse", "FillColor": "#857f46", "ColorName": "Shadow",
-		         "Arc": { "start": 180, "end": 270 } } ],
-        "3": [ { "Shape": "Ellipse", "FillColor": "#bda669", "ColorName": "Gimblet",
-		         "Arc": { "start": 270, "end": 0 } }  ],			   
+	    "0": [ { "Shape": "Ellipse", "FillColor": "$DoubleSpanishWhite", "Arc": { "start": 0, "end": 90 } } ],
+        "1": [ { "Shape": "Ellipse", "FillColor": "$IndianKhaki", "Arc": { "start": 90, "end": 180 } } ],		
+		"2": [ { "Shape": "Ellipse", "FillColor": "$Shadow", "Arc": { "start": 180, "end": 270 } } ],				
+        "3": [ { "Shape": "Ellipse", "FillColor": "$Gimblet", "Arc": { "start": 270, "end": 0 } }  ],			   
                
-        "4": [ { "Shape": "Ellipse", "FillColor": "#614b2f", "ColorName": "Shingle Fawn", 
-		         "Arc": { "start": 0,   "end": 90 } } ], 
-        "5": [ { "Shape": "Ellipse", "FillColor": "#D0D0D0", "ColorName": "Alto",
-		         "Arc": { "start": 90,  "end": 180 } } ],                 
-        "6": [ { "Shape": "Ellipse", "FillColor": "#888888", "ColorName": "Gray",
-		         "Arc": { "start": 180, "end": 270 } } ], 
-        "7": [ { "Shape": "Ellipse", "FillColor": "#595959", "ColorName": "Scorpion",
-		         "Arc": { "start": 270, "end": 0 } } ] 
+        "4": [ { "Shape": "Ellipse", "FillColor": "$ShingleFawn", "Arc": { "start": 0, "end": 90 } } ], 
+        "5": [ { "Shape": "Ellipse", "FillColor": "$Alto", "Arc": { "start": 90, "end": 180 } } ],
+		"6": [ { "Shape": "Ellipse", "FillColor": "$Gray", "Arc": { "start": 180, "end": 270 } } ], 
+        "7": [ { "Shape": "Ellipse", "FillColor": "$Scorpion", "Arc": { "start": 270, "end": 0 } } ] 
     }               
 }
